@@ -1,5 +1,12 @@
-<h1>
-	This is the places page
-</h1>
+<%- include("partial/header") %>
 
-<%= places %>
+<h1>This is the places page</h1>
+
+<% places.forEach((places)=>{ %>
+	<div>
+		<h4><%= places.name%></h4>
+		<img src="<%= places.image%>"> 
+	</div>
+<% }) %>
+
+<%- include("partial/footer") %>

@@ -1,0 +1,5 @@
+-ejs
+	-js code and variable access from view folder objs goes btwn <% %> aka ejs brackets
+	-Even when doing src="<%%>" even if that variable returns a string the quotes won't come with it
+
+-
