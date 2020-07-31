@@ -1,12 +1,28 @@
 <%- include("partial/header") %>
-
-<h1>This is the places page</h1>
-
-<% places.forEach((places)=>{ %>
-	<div>
-		<h4><%= places.name%></h4>
-		<img src="<%= places.image%>"> 
+<div class="container">
+	<header class="jumbotron">
+		<div class="container">
+			<h1>Welcome To The Outdoors!</h1>
+			<p>View our hand-picked National Parks from all over the world</p>
+			<p>
+				<a class="btn btn-primary btn-sm" href="/places/add">Add New National Parks</a>
+			</p>
+	    </div>
+	</header>
+	<div class="row text-center" style="display:flex; flex-wrap:wrap;">
+		<% places.forEach((places)=>{ %>
+			<div class="col-md-3 col-sm-4">
+				<div class="thumbnail">
+					<img src="<%= places.image%>" style="width:400px;">	
+					<div class="caption">
+						<h4><%= places.name%></h4>
+					</div>
+				</div> 
+			</div>
+		<% }) %>
+		
 	</div>
-<% }) %>
+
+</div>
 
 <%- include("partial/footer") %>
