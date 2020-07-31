@@ -3,64 +3,77 @@ let express 	= require("express"),
 	bodyParser 	= require("body-parser"),
 	mongoose 	= require("mongoose");
 
-mongoose.connect("mongodb://localhost/the_outdoors", {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect("mongodb://localhost/the_outdoors", {useNewUrlParser: true, useUnifiedTopology: true}) //27017 port
 app.use(bodyParser.urlencoded({extended:true}))
 app.set("view engine", "ejs")
 
 let locationSchema = new mongoose.Schema({
 	name: String,
-	image: String
+	image: String,
+	description: String
 });
 
 let Location = mongoose.model("Location", locationSchema);
+//"Yosemite National Park", "imag
+// e" : "https://images.unsplash.com/photo-1518623380242-d992d3c57b37?ixlib=rb-1.2.1&ixid=e
+// yJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80", "__v" : 0 }
+// { "_id" : ObjectId("5f238c606918652c92a6102f"), "name" : "Zion ", "image" : "https://ima
+// ges.unsplash.com/photo-1533090631-338411005233?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&
+// auto=format&fit=crop&w=600&q=60", "__v" : 0 }
+// { "_id" : ObjectId("5f238ca66918652c92a61031"), "name" : "Yoho", "image" : "https://imag
+// es.unsplash.com/photo-1527489377706-5bf97e608852?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd
+// 9&auto=format&fit=crop&w=1654&q=80", "__v" : 0 }
+// { "_id" : ObjectId("5f238cbd6918652c92a61032"), "name" : "Glacier", "image" : "https://i
+// mages.unsplash.com/photo-1533496928027-041f8b02dc78?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEy
+// MDd9&auto=format&fit=crop&w=932&q=80", "__v" : 0 }
 
-// Location.create({name: "Yosemite National Park", image:"https://images.unsplash.com/photo-1518623380242-d992d3c57b37?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80"}, (err, location)=>{
-// 	if(err) console.log(err);
-// 	else console.log("NEWLY CREATED LOCATION"); console.log(location);
+// Location.create({
+// 	name: "Yosemite",
+// 	image: "https://images.unsplash.com/photo-1518623380242-d992d3c57b37?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80",
+// 	description: "It's located in California’s Sierra Nevada mountains. Known for its giant, ancient sequoia trees."
+// }, (err, location)=>{
+// 	if (err) console.log(err);
+// 	else console.log(location);
 // })
-
-// let places = [
-// 		{name: "Yosemite National Park", image:"https://images.unsplash.com/photo-1518623380242-d992d3c57b37?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1900&q=80"},
-// 		{name: "Zion National Park", image:"https://images.unsplash.com/photo-1533090631-338411005233?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=600&q=60"},
-// 		{name: "Glacier National Park", image:"https://images.unsplash.com/photo-1533496928027-041f8b02dc78?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=932&q=80"},
-// 		{name: "Yoho National Park", image:"https://images.unsplash.com/photo-1527489377706-5bf97e608852?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1654&q=80"}
-// 	]
-
-
 
 app.get("/", (req, res)=>{
 	res.render("landing")
 });
 
-app.get("/places", (req, res)=>{
+app.get("/locations", (req, res)=>{
 	Location.find({}, (err, allLocations)=>{
 		if (err){
 			console.log(err)
 		} else {
-			res.render("places", {places: allLocations}); //send all locations you just got from db and send them through to the places.ejs file
+			res.render("index", {locations: allLocations}); //sending data from db to index.ejs file
 		}
 	})
-	// res.render("places", {places: places}); //places.ejs file, obj of all data we want to pass through
 });
 
-app.post("/places", (req, res)=>{
-	let name = req.body.name;
-	let image = req.body.image;
-	let newLocation = {name, image}
-	// places.push(newLocation)
-	//Create new location and save to db
+app.post("/locations", (req, res)=>{
+	let name = req.body.name,
+		image = req.body.image,
+		description = req.body.description,
+		newLocation = {name, image, description}
 	Location.create(newLocation, (err, newCreation)=>{
 		if(err){
 			console.log(err)
 		} else {
-			res.redirect("/places")
+			res.redirect("/locations")
 		}
 	})
 });
 
-app.get("/places/add", (req, res)=>{
-	res.render("add.ejs")
+app.get("/locations/add", (req, res)=>{
+	res.render("add")
 });
+
+app.get("/locations/:id", (req, res)=>{
+	Location.findById(req.params.id, (err, foundLocation)=>{
+		if (err) console.log(err);
+		else res.render("show", {location: foundLocation});
+	})
+})
 
 app.listen(3000, ()=>{
 	console.log("server has started!!")
