@@ -4,7 +4,7 @@ let locationSchema = new mongoose.Schema({
 	name: String,
 	image: String,
 	description: String,
-	comments: [
+	comments: [ //this is how you associate one model with another
 		{
 			type: mongoose.Schema.Types.ObjectId, //a mongoose thing
 			ref: "Comment" //referencing ids from the Comment docs
