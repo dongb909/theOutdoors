@@ -12,4 +12,4 @@ let locationSchema = new mongoose.Schema({
 	]
 });
 
-let Location = mongoose.model("Location", locationSchema);
+module.exports = mongoose.model("Location", locationSchema);
