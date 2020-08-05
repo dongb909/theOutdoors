@@ -4,11 +4,14 @@
 	<img src="<%=location.image%>" style="width:500px;">
 	<p><%=location.description%></p>
 
-<% location.comments.forEach((comment)=>{ %>
 	<p>
-		<strong><%=comment.author%></strong> - <%= comment.text %>
+		<a class="btn btn-success" href="/locations/<%=location._id%>/comments/add">Add New Comment</a>
 	</p>
-<% }) %>
+	<% location.comments.forEach((comment)=>{ %>
+		<p>
+			<strong><%=comment.author%></strong> - <%= comment.text %>
+		</p>
+	<% }) %>
 </div>
 
 

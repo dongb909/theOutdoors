@@ -76,8 +76,8 @@ app.post("/locations/:id/comments", async function (req, res){
 	let location = await Location.findById(req.params.id);
 	let newComment = await Comment.create({author: req.body.comment.author, text: req.body.comment.text});
 	location.comments.push(newComment);
-	location.save();	//do not do .populate here, you're using async await, NOT promises this way
-	res.redirect("/locations/" + location._id);	//NO HAVE TO PUT IN THE ACTUAL ID, ":ID" DOES NOT WORK because this is treated as a STRING, so :id will not convert to a number
+	location.save();
+	res.redirect("/locations/" + location._id);	
 })
 
 app.listen(3000, ()=>{
