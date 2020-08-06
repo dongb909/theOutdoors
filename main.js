@@ -12,7 +12,9 @@ let express 	= require("express"),
 ==========================*/
 mongoose.connect("mongodb://localhost/the_outdoors", {useNewUrlParser: true, useUnifiedTopology: true}) 
 app.use(bodyParser.urlencoded({extended:true}))
-app.set("view engine", "ejs")
+app.use(express.static(__dirname + "/public"))
+app.set("view engine", "ejs") 
+
 
 /*========================
 	LOCATION ROUTES
@@ -49,13 +51,10 @@ app.get("/locations/add", (req, res)=>{
 	res.render("locations/add")
 });
 
-//.populate adds the actual comments to our objs instead of the ids references
-//.exec is a function that lets you execute your own code after a promise is returned
 app.get("/locations/:id", (req, res)=>{
 	Location.findById(req.params.id).populate("comments").exec((err, foundLocation)=>{
 		if (err) console.log(err);
 		else {
-			// console.log(foundLocation)
 			res.render("locations/show", {location: foundLocation});
 		}
 	})

@@ -1,0 +1,16 @@
+body{
+	background: lightslategray;
+}
+
+.caption-full{
+	padding:15px;
+}
+
+.thumbnail{
+	padding:0px;
+	border: none;
+}
+
+.thumbnail img{
+	width:100%;
+}

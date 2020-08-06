@@ -3,3 +3,12 @@
 	-Even when doing src="<%%>" even if that variable returns a string the quotes won't come with it
 	-<%- for including variables
 	-<%= for allowing html tags (just have to run a filter for scripts)
+	
+	
+- app.set("view engine", "ejs") ==> configuration info telling express to set its key "view engine" to ejs, or pug or something else. Basically all the html we're doing, we're going to be using ejs
+
+
+-//.populate adds the actual comments to our objs instead of the ids references
+//.exec is a function that lets you execute your own code after a promise is returned
+
+-if using async/await then the above methods will not work bc you're no longer using promises. 
