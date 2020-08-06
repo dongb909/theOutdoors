@@ -4,10 +4,10 @@ let locationSchema = new mongoose.Schema({
 	name: String,
 	image: String,
 	description: String,
-	comments: [ //this is how you associate one model with another
+	comments: [ 
 		{
-			type: mongoose.Schema.Types.ObjectId, //a mongoose thing
-			ref: "Comment" //referencing ids from the Comment docs
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Comment" 
 		}
 	]
 });

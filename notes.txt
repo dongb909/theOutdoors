@@ -12,3 +12,12 @@
 //.exec is a function that lets you execute your own code after a promise is returned
 
 -if using async/await then the above methods will not work bc you're no longer using promises. 
+
+
+-SCHEMA: 
+		comments: [ //this is how you associate one model with another
+		{
+			type: mongoose.Schema.Types.ObjectId, //a mongoose thing
+			ref: "Comment" //referencing ids from the Comment docs
+		}
+	]
