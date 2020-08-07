@@ -21,3 +21,5 @@
 			ref: "Comment" //referencing ids from the Comment docs
 		}
 	]
+	
+-app.use runs something for every route that we use

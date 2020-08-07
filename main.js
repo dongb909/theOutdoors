@@ -8,7 +8,7 @@ let express 	= require("express"),
 	LocalStrategy = require("passport-local"),
 	User 		= require("./models/user"),
 	expressSession = require("express-session")
-	seedDB		= require("./seeds")
+	// seedDB		= require("./seeds")
 
 
 /*========================
@@ -33,6 +33,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use((req,res,next)=>{
+	res.locals.currentUser = req.user; //will be empty if no one signed in
+	next();
+})//this is a middleware that will run with each route to be available to every template instead of having to add it in to each route template data (ex: res.render("locations/index", {locations: allLocations, currentUser: req.user}); )
+//req.user is only available if passport created a user upon registration or login through authenticate(), it comes from the req that's sent from browser tat was stored there from a previous response obj to the local browser, just username and _id
+
 /*========================
 	LOCATION ROUTES
 ==========================*/
@@ -48,6 +54,7 @@ app.get("/locations", (req, res)=>{
 			res.render("locations/index", {locations: allLocations}); 
 		}
 	})
+	
 });
 
 app.post("/locations", (req, res)=>{
@@ -87,7 +94,7 @@ app.get("/locations/:id/comments/add", isLoggedIn, (req, res) =>{
 	});
 })
 
-app.post("/locations/:id/comments", async function (req, res){
+app.post("/locations/:id/comments", isLoggedIn, async function (req, res){
 	let location = await Location.findById(req.params.id);
 	let newComment = await Comment.create({author: req.body.comment.author, text: req.body.comment.text});
 	location.comments.push(newComment);
