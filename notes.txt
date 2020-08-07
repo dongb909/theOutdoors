@@ -53,3 +53,11 @@ app.use("/locations", locationRoutes); //will append /locations to all urls in l
 
 -> then within routes files themselves no longer need to do "/location" bc within main.js we did app.use("/location", LocationRoutes) which appends that url for us before the urls we put here.
 //BUT req.params.id will no longer work bc it gets the params from the url you provided here directly, so need to merge them when requiring at the start with router = express.Router({mergeParams: true}) 
+
+
+
+-EDIT
+	-server: app.use(methodOverride("_method")); //_method is the recommended convention to tell it what to look for
+		- Location.findByIdAndUpdate(req.params.id, req.body.locationDATAFromTemplateForm, (err, foundLocation){})
+	-template: <form action="/locations/<%= location._id%>/edit?_method=PUT" method="POST">
+	

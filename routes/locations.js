@@ -14,6 +14,9 @@ router.get("/", (req, res)=>{
 	
 });
 
+/*========================
+	POST A LOCATION
+==========================*/
 router.post("/", isLoggedIn, (req, res)=>{
 	let name = req.body.name,
 		image = req.body.image,
@@ -40,6 +43,23 @@ router.get("/:id", (req, res)=>{
 		else {
 			res.render("locations/show", {location: foundLocation});
 		}
+	})
+})
+
+/*========================
+	UPDATE A LOCATION
+==========================*/
+router.get("/:id/edit", (req, res)=>{
+	Location.findById(req.params.id, (err, foundLocation)=>{
+		if (err) res.redirect("/locations");
+		res.render("locations/edit", {location: foundLocation});	//don't need to do relative path bc already configured express to know to use the "view" folder as its root and .ejs as the files to look for
+	})
+})
+
+router.put("/:id", (req, res)=>{
+	Location.findByIdAndUpdate(req.params.id, req.body.location, (err, foundLocation)=>{
+		if (err) res.redirect("/locations");
+		res.redirect("/locations/" + req.params.id);	
 	})
 })
 

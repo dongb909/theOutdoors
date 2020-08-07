@@ -3,11 +3,12 @@ let express 	= require("express"),
 	bodyParser 	= require("body-parser"),
 	mongoose 	= require("mongoose"),
 	Location 	= require("./models/location"),
-	Comment  	= require("./models/comment")
+	Comment  	= require("./models/comment"),
+	methodOverride = require("method-override"),
 	passport	= require("passport"),
 	LocalStrategy = require("passport-local"),
 	User 		= require("./models/user"),
-	expressSession = require("express-session")
+	expressSession = require("express-session"),
 	seedDB		= require("./seeds")
 
 // seedDB();
@@ -25,6 +26,7 @@ mongoose.connect("mongodb://localhost/the_outdoors", {useNewUrlParser: true, use
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs"); 
+app.use(methodOverride("_method")); //_method is the recommended convention to tell it what to look for
 
 /*========================
 	PASSPORT CONFIGURATION
