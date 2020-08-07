@@ -4,11 +4,11 @@ let express 	= require("express"),
 	mongoose 	= require("mongoose"),
 	Location 	= require("./models/location"),
 	Comment  	= require("./models/comment")
-	// passport	= require("passport"),
-	// LocalStrategy = require("passport-local"),
-	// User 		= require("./models/user"),
-	// expressSession = require("express-session")
-	// seedDB		= require("./seeds")
+	passport	= require("passport"),
+	LocalStrategy = require("passport-local"),
+	User 		= require("./models/user"),
+	expressSession = require("express-session")
+	seedDB		= require("./seeds")
 
 
 /*========================
@@ -22,16 +22,16 @@ app.set("view engine", "ejs");
 /*========================
 	PASSPORT CONFIGURATION
 ==========================*/
-// app.use(expressSession({
-// 	secret: "Hi my name is Rachel!",
-// 	resave: false,
-// 	saveUninitialized: false
-// }));
-// app.use(passport.initialize());
-// app.use(passport.session());
-// passport.use(new LocalStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+app.use(expressSession({
+	secret: "Hi my name is Rachel!",
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize()); 
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 /*========================
 	LOCATION ROUTES
@@ -99,7 +99,22 @@ app.post("/locations/:id/comments", async function (req, res){
 /*========================
 	AUTH ROUTES
 ==========================*/
+app.get("/register", (req, res)=>{
+	res.render("register")
+});
 
+app.post("/register", (req,res)=>{
+	let newUser = new User({username: req.body.username});
+	User.register(newUser, req.body.password, (err, user)=>{
+		if (err){
+			console.log(err);
+			return res.render("register");
+		}
+		passport.authenticate("local")(req, res, ()=>{
+			res.redirect("/locations")
+		})
+	})
+})
 app.listen(3000, ()=>{
 	console.log("server has started!!")
 });
