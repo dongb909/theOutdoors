@@ -10,9 +10,9 @@ let express 	= require("express"),
 	expressSession = require("express-session")
 	// seedDB		= require("./seeds")
 
-let commentRoutes = require("/routes/comments"),
-	locationRoutes = require("/routes/locations"),
-	indexRoutes = require("/routes/index")
+let commentRoutes = require("./routes/comments"),
+	locationRoutes = require("./routes/locations"),
+	indexRoutes = require("./routes/index")
 
 /*========================
 	CONNECTION
@@ -36,11 +36,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req,res,next)=>{
-	res.locals.currentUser = req.user; //will be empty if no one signed in
+app.use((req,res,next)=>{	//MUST BE BEFORE USING ROUTES!!
+	res.locals.currentUser = req.user; 
 	next();
-})//this is a middleware that will run with each route to be available to every template instead of having to add it in to each route template data (ex: res.render("locations/index", {locations: allLocations, currentUser: req.user}); )
-//req.user is only available if passport created a user upon registration or login through authenticate(), it comes from the req that's sent from browser tat was stored there from a previous response obj to the local browser, just username and _id
+});
+
+app.use(indexRoutes);
+app.use("/locations/:id/comments", commentRoutes);
+app.use("/locations", locationRoutes); //will append /locations to all urls in location routes
 
 /*========================
 	LOCATION ROUTES

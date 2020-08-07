@@ -23,3 +23,33 @@
 	]
 	
 -app.use runs something for every route that we use
+-app.use((req,res,next)=>{
+	res.locals.currentUser = req.user; //will be empty if no one signed in
+	next();
+})//this is a middleware that will run with each route to be available to every template instead of having to add it in to each route template data (ex: res.render("locations/index", {locations: allLocations, currentUser: req.user}); )
+//req.user is only available if passport created a user upon registration or login through authenticate(), it comes from the req that's sent from browser tat was stored there from a previous response obj to the local browser, just username and _id
+
+
+- router.post("/login", passport.authenticate("local", {
+	successRedirect: "/locations",
+	failureRedirect: "/login"
+}), (err,res)=>{});
+//authenticate compares body with db on its own. the cb isn't needed but just there so you remember it's a middleware. Is the same authenicate as with register, but for register, you're making the user first and then signing them in
+
+
+-//only allow users to do something if they're logged something
+function isLoggedIn(req, res, next){ //express knows what you place in these params
+	if(req.isAuthenticated()){ //if passport method returns true
+		return next();
+	}
+	res.redirect("/login");
+}
+
+
+-can shorten url and dry by 
+app.use(indexRoutes);
+app.use("/locations/:id/comments", commentRoutes);
+app.use("/locations", locationRoutes); //will append /locations to all urls in location routes
+
+-> then within routes files themselves no longer need to do "/location" bc within main.js we did app.use("/location", LocationRoutes) which appends that url for us before the urls we put here.
+//BUT req.params.id will no longer work bc it gets the params from the url you provided here directly, so need to merge them when requiring at the start with router = express.Router({mergeParams: true}) 

@@ -1,4 +1,9 @@
-app.get("/locations", (req, res)=>{
+let express = require("express"),
+	router = express.Router(),
+	Location = require("../models/location")
+	
+//no longer need to do "/location" bc within main.js we did app.use("/location", LocationRoutes) which appends that url for us before the urls we put here.
+router.get("/", (req, res)=>{
 	Location.find({}, (err, allLocations)=>{
 		if (err){
 			console.log(err)
@@ -9,7 +14,7 @@ app.get("/locations", (req, res)=>{
 	
 });
 
-app.post("/locations", (req, res)=>{
+router.post("/", (req, res)=>{
 	let name = req.body.name,
 		image = req.body.image,
 		description = req.body.description,
@@ -23,11 +28,11 @@ app.post("/locations", (req, res)=>{
 	})
 });
 
-app.get("/locations/add", (req, res)=>{
+router.get("/add", (req, res)=>{
 	res.render("locations/add")
 });
 
-app.get("/locations/:id", (req, res)=>{
+router.get("/:id", (req, res)=>{
 	Location.findById(req.params.id).populate("comments").exec((err, foundLocation)=>{
 		if (err) console.log(err);
 		else {
@@ -35,3 +40,13 @@ app.get("/locations/:id", (req, res)=>{
 		}
 	})
 })
+
+
+function isLoggedIn(req, res, next){ 
+	if(req.isAuthenticated()){ 
+		return next();
+	}
+	res.redirect("/login");
+}
+
+module.exports = router;
