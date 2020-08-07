@@ -2,7 +2,7 @@ let express = require("express"),
 	router = express.Router(),
 	Location = require("../models/location")
 	
-//no longer need to do "/location" bc within main.js we did app.use("/location", LocationRoutes) which appends that url for us before the urls we put here.
+
 router.get("/", (req, res)=>{
 	Location.find({}, (err, allLocations)=>{
 		if (err){

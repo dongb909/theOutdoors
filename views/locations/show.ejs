@@ -23,9 +23,13 @@
 					<a class="btn btn-success" href="/locations/<%=location._id%>/comments/add">Add New Comment</a>
 				</div>
 				<% location.comments.forEach((comment)=>{ %>
-					<p>
-						<strong><%=comment.author%></strong> - <%= comment.text %>
-					</p>
+					<div class="row">
+						<div class="col-md-12">
+							<strong><%=comment.author.username%></strong>
+							<span class="pull-right"> <%= Date.now() %> </span>
+							<p><%= comment.text %></p>
+						</div>
+					</div>
 				<% }) %>
 			</div>
 		</div>

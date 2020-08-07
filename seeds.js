@@ -37,7 +37,7 @@ async function seedDB(){
 		location.comments.push(comment);
 		location.save();
 		console.log("Created new comment");
-    }
+	}
 }
  
 module.exports = seedDB;

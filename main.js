@@ -8,8 +8,12 @@ let express 	= require("express"),
 	LocalStrategy = require("passport-local"),
 	User 		= require("./models/user"),
 	expressSession = require("express-session")
-	// seedDB		= require("./seeds")
+	seedDB		= require("./seeds")
 
+// seedDB();
+/*========================
+	REQUIRING ROUTES
+==========================*/
 let commentRoutes = require("./routes/comments"),
 	locationRoutes = require("./routes/locations"),
 	indexRoutes = require("./routes/index")
@@ -41,32 +45,12 @@ app.use((req,res,next)=>{	//MUST BE BEFORE USING ROUTES!!
 	next();
 });
 
+/*========================
+	USING ROUTES
+==========================*/
 app.use(indexRoutes);
 app.use("/locations/:id/comments", commentRoutes);
-app.use("/locations", locationRoutes); //will append /locations to all urls in location routes
-
-/*========================
-	LOCATION ROUTES
-==========================*/
-
-
-/*========================
-	COMMENT ROUTES
-==========================*/
-
-/*========================
-	AUTH ROUTES
-==========================*/
-
-
-/*========================
-	LOGIN ROUTES
-==========================*/
-
-/*========================
-	LOGIN ROUTES
-==========================*/
-
+app.use("/locations", locationRoutes); 
 
 
 app.listen(3000, ()=>{
