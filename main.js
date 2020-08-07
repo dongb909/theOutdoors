@@ -115,6 +115,20 @@ app.post("/register", (req,res)=>{
 		})
 	})
 })
+
+/*========================
+	LOGIN ROUTES
+==========================*/
+app.get("/login", (req, res)=>{
+	res.render("login")
+});
+
+app.post("/login", passport.authenticate("local", {
+	successRedirect: "/locations",
+	failureRedirect: "/login"
+}), (err,res)=>{});
+//authenticate compares body with db on its own. the cb isn't needed but just there so you remember it's a middleware. Is the same authenicate as with register, but for register, you're making the user first and then signing them in
+
 app.listen(3000, ()=>{
 	console.log("server has started!!")
 });
