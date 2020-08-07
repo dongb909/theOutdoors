@@ -80,8 +80,7 @@ app.get("/locations/:id", (req, res)=>{
 /*========================
 	COMMENT ROUTES
 ==========================*/
-
-app.get("/locations/:id/comments/add", (req, res) =>{
+app.get("/locations/:id/comments/add", isLoggedIn, (req, res) =>{
 	Location.findById(req.params.id, (err, foundLocation) => {
 		if (err) console.log(err);
 		else res.render("comments/add", {location: foundLocation});
@@ -128,6 +127,26 @@ app.post("/login", passport.authenticate("local", {
 	failureRedirect: "/login"
 }), (err,res)=>{});
 //authenticate compares body with db on its own. the cb isn't needed but just there so you remember it's a middleware. Is the same authenicate as with register, but for register, you're making the user first and then signing them in
+
+/*========================
+	LOGIN ROUTES
+==========================*/
+app.get("/logout", (req, res)=>{
+	req.logout();
+	res.redirect("/locations")
+})
+
+/*========================
+	MIDDLEWARE
+==========================*/
+//only allow users to do something if they're logged something
+function isLoggedIn(req, res, next){ //express knows what you place in these params
+	if(req.isAuthenticated()){ //if passport method returns true
+		return next();
+	}
+	res.redirect("/login");
+}
+
 
 app.listen(3000, ()=>{
 	console.log("server has started!!")
