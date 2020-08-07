@@ -11,11 +11,10 @@ router.get("/", (req, res)=>{
 			res.render("locations/index", {locations: allLocations}); 
 		}
 	})
-	
 });
 
-/*========================
-	POST A LOCATION
+
+/*	POST LOCATION
 ==========================*/
 router.post("/", isLoggedIn, (req, res)=>{
 	let name = req.body.name,
@@ -46,8 +45,8 @@ router.get("/:id", (req, res)=>{
 	})
 })
 
-/*========================
-	UPDATE A LOCATION
+
+/*	UPDATE LOCATION
 ==========================*/
 router.get("/:id/edit", (req, res)=>{
 	Location.findById(req.params.id, (err, foundLocation)=>{
@@ -63,12 +62,27 @@ router.put("/:id", (req, res)=>{
 	})
 })
 
+/*	DESTROY LOCATION
+==========================*/
+ router.delete("/:id", (req, res)=>{
+	 Location.findByIdAndRemove(req.params.id, (err)=>{
+		 if (err) res.redirect("/locations");
+		 res.redirect("/locations");
+	 })
+ })
 
+
+
+
+
+//==============================
 function isLoggedIn(req, res, next){ 
 	if(req.isAuthenticated()){ 
 		return next();
 	}
 	res.redirect("/login");
 }
+
+
 
 module.exports = router;

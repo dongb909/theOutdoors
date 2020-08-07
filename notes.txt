@@ -61,3 +61,10 @@ app.use("/locations", locationRoutes); //will append /locations to all urls in l
 		- Location.findByIdAndUpdate(req.params.id, req.body.locationDATAFromTemplateForm, (err, foundLocation){})
 	-template: <form action="/locations/<%= location._id%>/edit?_method=PUT" method="POST">
 	
+	
+-DELETE
+	- can't just be a button to delete, it has to be a form with a button in it
+	- 2 conditions: that you are loggedin AND that you created the campground
+	- delete cb only needs an err param since it's not returning anything in the promise
+	-route is NOT "/:id/delete" it's just /:id and then you do the ?_method=delete on the form for action and method is still POST just like update
+	- anchor tag does not have to href to anywhere, it's taken care of by middleware/server

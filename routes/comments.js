@@ -3,6 +3,8 @@ let express = require("express"),
 	Location = require("../models/location"),
 	Comment = require("../models/comment")
 
+/*	POST COMMENT
+==========================*/
 router.get("/add", isLoggedIn, (req, res) =>{
 	Location.findById(req.params.id, (err, foundLocation) => {
 		if (err) console.log(err);
@@ -23,6 +25,18 @@ router.post("/", isLoggedIn, async function (req, res){
 	res.redirect("/locations/" + location._id);	
 })
 
+
+/*	UPDATE COMMENT
+==========================*/
+
+
+
+/*	DELETE COMMENT
+==========================*/
+
+
+
+//==================================
 function isLoggedIn(req, res, next){ 
 	if(req.isAuthenticated()){ 
 		return next();
