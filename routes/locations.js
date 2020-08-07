@@ -14,11 +14,13 @@ router.get("/", (req, res)=>{
 	
 });
 
-router.post("/", (req, res)=>{
+router.post("/", isLoggedIn, (req, res)=>{
 	let name = req.body.name,
 		image = req.body.image,
 		description = req.body.description,
-		newLocation = {name, image, description}
+		author = {id: req.user._id,
+				 username: req.user.username},
+		newLocation = {name, image, description, author}
 	Location.create(newLocation, (err, newCreation)=>{
 		if(err){
 			console.log(err)
@@ -28,7 +30,7 @@ router.post("/", (req, res)=>{
 	})
 });
 
-router.get("/add", (req, res)=>{
+router.get("/add", isLoggedIn, (req, res)=>{
 	res.render("locations/add")
 });
 
