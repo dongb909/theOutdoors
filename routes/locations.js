@@ -65,8 +65,8 @@ router.put("/:id", (req, res)=>{
 /*	DESTROY LOCATION
 ==========================*/
  router.delete("/:id", (req, res)=>{
-	 Location.findByIdAndRemove(req.params.id, (err)=>{
-		 if (err) res.redirect("/locations");
+	 Location.findByIdAndDelete(req.params.id, (err)=>{
+		 if (err) res.redirect("/locations")
 		 res.redirect("/locations");
 	 })
  })

@@ -18,8 +18,8 @@
 					<p><%=location.description%></p>
 					<p> <em>Submitted by <%=location.author.username%></em></p>
 					<a class="btn btn-warning" href="/locations/<%= location._id%>/edit">Edit</a>
-					<form action="/locations/:id?_method=DELETE" method="POST">
-						<button id="delete-button" class="btn btn-danger">Delete</button>
+					<form id="delete-button" action="/locations/<%= location._id%>?_method=DELETE" method="POST">
+						<button class="btn btn-danger">Delete</button>
 					</form>
 				</div>
 			</div>
