@@ -68,3 +68,20 @@ app.use("/locations", locationRoutes); //will append /locations to all urls in l
 	- delete cb only needs an err param since it's not returning anything in the promise
 	-route is NOT "/:id/delete" it's just /:id and then you do the ?_method=delete on the form for action and method is still POST just like update
 	- anchor tag does not have to href to anywhere, it's taken care of by middleware/server
+	-need to also delete the comments too!! so that's another item
+	- if they aren't logged in or have permission then those edit and delete buttons shouldn't appear
+
+	
+	
+	
+-AUTHENTICATION = figuring out if someone is who they say they are to sign in
+-AUTHORIZATION = once signed in, if they have permission to do a certain thing, also, if they aren't logged in or have permission then those edit and delete buttons shouldn't appear
+	-CANNOT DO req.user._id === foundLocation.auther.id bc though the ids are the same, the TYPES are diff. 
+		-req.user._id is a STRING, foundLocation.auther.id is an OBJECT REFERENCE
+		-so in order to compare this, use a method mongoose provides
+			- foundLocation.auther.id.equals(req.user._id)
+			
+-WANT TO USE MIDDLEWARE FOR THESE AUTHORIZATION CHECKS EVEN THOUGH YOU CANT GET TO THE PAGE IF YOU'RE NOT LOGGED IN, PEOPLE CAN STILL USE POSTMAN AND GO DIRECTLY TO THE URL AND EDIT/ADD/COMMENT/DELETE
+
+-res.redirect("back") ===> takes users back to where they previously came from
+

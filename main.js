@@ -42,8 +42,9 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req,res,next)=>{	//MUST BE BEFORE USING ROUTES!!
-	res.locals.currentUser = req.user; 
+app.use(function (req,res,next){	//a middleware that runs for EVERY route thus every route and template has access to the variable "currentUser"
+	res.locals.currentUser = req.user; //only avail if user is loggedin or else it'll return undefined
+	//currentUser = {_id: req.user.id}
 	next();
 });
 
