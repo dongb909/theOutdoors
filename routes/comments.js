@@ -28,9 +28,19 @@ router.post("/", isLoggedIn, async function (req, res){
 
 /*	UPDATE COMMENT
 ==========================*/
+//you can only get to the edit comment page if own the comment
+router.get("/:comment_id/edit", checkCommentOwnership, (req, res)=>{
+		Comment.findById(req.params.comment_id, (err, foundComment)=>{
+				res.render("comments/edit", {location_id: req.params.id, comment:foundComment})
+	})
+})
 
-
-
+//you can only actually post if you own the comment, need this in case they bypase the .get through postman
+router.put("/:comment_id", checkCommentOwnership, (req, res)=>{
+	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, foundComment)=>{
+		res.redirect("/locations/" + req.params.id);
+	})
+})
 /*	DELETE COMMENT
 ==========================*/
 
@@ -43,6 +53,30 @@ function isLoggedIn(req, res, next){
 	}
 	res.redirect("/login");
 }
+
+
+function checkCommentOwnership(req, res, next){
+	if(req.isAuthenticated()) { //if user is loggedin
+		Comment.findById(req.params.comment_id, (err, foundComment)=>{ //find comment
+			if(err) res.send("can't find comment");
+			else {
+				if(foundComment.author.id.equals(req.user._id)){ //if user loggedin is same as comment author
+					next();
+				} 
+				else {
+					res.send("author not same");
+				}
+			}
+		})
+	} else {
+		//if user not logged in 
+		res.redirect("back");
+	}
+}
+
+
+
+
 
 
 module.exports = router;
