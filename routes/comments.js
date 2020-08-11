@@ -1,18 +1,19 @@
 let express = require("express"),
 	router = express.Router({mergeParams: true}),
 	Location = require("../models/location"),
-	Comment = require("../models/comment")
+	Comment = require("../models/comment"),
+	mid = require("../middleware/middleware")
 
 /*	POST COMMENT
 ==========================*/
-router.get("/add", isLoggedIn, (req, res) =>{
+router.get("/add", mid.isLoggedIn, (req, res) =>{
 	Location.findById(req.params.id, (err, foundLocation) => {
 		if (err) console.log(err);
 		else res.render("comments/add", {location: foundLocation});
 	});
 })
 
-router.post("/", isLoggedIn, async function (req, res){
+router.post("/", mid.isLoggedIn, async function (req, res){
 	let location = await Location.findById(req.params.id);
 	let newComment = await Comment.create({text: req.body.comment.text}); //create comment
 	//add userid using the req.user from passport which is only there if logged in
@@ -29,14 +30,14 @@ router.post("/", isLoggedIn, async function (req, res){
 /*	UPDATE COMMENT
 ==========================*/
 //you can only get to the edit comment page if own the comment
-router.get("/:comment_id/edit", checkCommentOwnership, (req, res)=>{
+router.get("/:comment_id/edit", mid.checkCommentOwnership, (req, res)=>{
 		Comment.findById(req.params.comment_id, (err, foundComment)=>{
 				res.render("comments/edit", {location_id: req.params.id, comment:foundComment})
 	})
 })
 
 //you can only actually post if you own the comment, need this in case they bypase the .get through postman
-router.put("/:comment_id", checkCommentOwnership, (req, res)=>{
+router.put("/:comment_id", mid.checkCommentOwnership, (req, res)=>{
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, foundComment)=>{
 		res.redirect("/locations/" + req.params.id);
 	})
@@ -44,46 +45,11 @@ router.put("/:comment_id", checkCommentOwnership, (req, res)=>{
 
 /*	DELETE COMMENT
 ==========================*/
-router.delete("/:comment_id",  checkCommentOwnership, (req, res)=>{
+router.delete("/:comment_id",  mid.checkCommentOwnership, (req, res)=>{
 	Comment.findByIdAndDelete(req.params.comment_id, (err)=>{
 		console.log("comment deleted")
 		res.redirect("/locations/" + req.params.id);
 	})
 })
-
-
-//==================================
-function isLoggedIn(req, res, next){ 
-	if(req.isAuthenticated()){ 
-		return next();
-	}
-	res.redirect("/login");
-}
-
-
-function checkCommentOwnership(req, res, next){
-	if(req.isAuthenticated()) { //if user is loggedin
-		Comment.findById(req.params.comment_id, (err, foundComment)=>{ //find comment
-			if(err) res.send("can't find comment");
-			else {
-				if(foundComment.author.id.equals(req.user._id)){ //if user loggedin is same as comment author
-					//cannot use triple equals with mongoose id
-					next();
-				} 
-				else {
-					res.send("author not same");
-				}
-			}
-		})
-	} else {
-		//if user not logged in 
-		res.redirect("back");
-	}
-}
-
-
-
-
-
 
 module.exports = router;
