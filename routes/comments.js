@@ -41,9 +41,15 @@ router.put("/:comment_id", checkCommentOwnership, (req, res)=>{
 		res.redirect("/locations/" + req.params.id);
 	})
 })
+
 /*	DELETE COMMENT
 ==========================*/
-
+router.delete("/:comment_id",  checkCommentOwnership, (req, res)=>{
+	Comment.findByIdAndDelete(req.params.comment_id, (err)=>{
+		console.log("comment deleted")
+		res.redirect("/locations/" + req.params.id);
+	})
+})
 
 
 //==================================
@@ -61,6 +67,7 @@ function checkCommentOwnership(req, res, next){
 			if(err) res.send("can't find comment");
 			else {
 				if(foundComment.author.id.equals(req.user._id)){ //if user loggedin is same as comment author
+					//cannot use triple equals with mongoose id
 					next();
 				} 
 				else {
