@@ -85,3 +85,20 @@ app.use("/locations", locationRoutes); //will append /locations to all urls in l
 
 -res.redirect("back") ===> takes users back to where they previously came from
 
+
+-req.FLASH("key", "value aka message") placed BEFORE redirecting IN THE MIDDLEWARE and the message will show on the NEXT page.
+	-on REQ not RES
+	-Does not show right away, says to add this to the page for the next req and then handle it in the next ROUTE aka next cb. otherwise it doesn't really show user anything at all. 
+	-also only shows if middleware is even accessed bc it needs a NEXT CB to present it
+	-router.get("/login", (req, res)=>{
+	res.render("login",  {message: req.flash("message")})
+});
+
+	-middlewareObj.isLoggedIn = (req, res, next)=>{ 
+	if(req.isAuthenticated()){ 
+		return next();
+	}
+	req.flash("message", "Please Login First!");
+	res.redirect("/login");
+	-
+	-basically, you're adding a new piece of data in to be handled in the next route and that data WILL NOT PERSIST hence "Flash"

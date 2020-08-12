@@ -2,6 +2,7 @@ let express 	= require("express"),
 	app     	= express(),
 	bodyParser 	= require("body-parser"),
 	mongoose 	= require("mongoose"),
+	flash		= require("connect-flash"),
 	Location 	= require("./models/location"),
 	Comment  	= require("./models/comment"),
 	methodOverride = require("method-override"),
@@ -26,7 +27,8 @@ mongoose.connect("mongodb://localhost/the_outdoors", {useNewUrlParser: true, use
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs"); 
-app.use(methodOverride("_method")); //_method is the recommended convention to tell it what to look for
+app.use(methodOverride("_method"));
+app.use(flash());
 
 /*========================
 	PASSPORT CONFIGURATION

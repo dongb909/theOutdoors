@@ -32,7 +32,7 @@ router.post("/register", (req,res)=>{
 	LOGIN ROUTES
 ==========================*/
 router.get("/login", (req, res)=>{
-	res.render("login")
+	res.render("login",  {message: req.flash("message")})
 });
 
 router.post("/login", passport.authenticate("local", {
