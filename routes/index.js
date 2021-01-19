@@ -32,7 +32,7 @@ router.post("/register", (req,res)=>{
 	LOGIN ROUTES
 ==========================*/
 router.get("/login", (req, res)=>{
-	res.render("login",  {message: req.flash("message")})
+	res.render("login")
 });
 
 router.post("/login", passport.authenticate("local", {
@@ -44,7 +44,8 @@ router.post("/login", passport.authenticate("local", {
 	LOGIN ROUTES
 ==========================*/
 router.get("/logout", (req, res)=>{
-	req.logout();
+	req.logout();//passport method
+	req.flash("flashMessageSuccess", "Logged you out!!");
 	res.redirect("/locations")
 })
 

@@ -8,7 +8,7 @@ middlewareObj.isLoggedIn = (req, res, next)=>{
 	if(req.isAuthenticated()){ 
 		return next();
 	}
-	req.flash("message", "Please Login First!");
+	req.flash("flashMessageError", "You need to be logged in to do that!");
 	res.redirect("/login");
 }
 
@@ -16,18 +16,21 @@ middlewareObj.isLoggedIn = (req, res, next)=>{
 middlewareObj.checkLocationOwnership = (req, res, next)=>{
 	if(req.isAuthenticated()) { 
 		Location.findById(req.params.id, (err, foundLocation)=>{
-			if(err) res.send("can't find location");
-			else {
+			if(err) {
+				req.flash("flashMessageError", "Location not found");
+				res.redirect("back");
+			} else {
 				if(foundLocation.author.id.equals(req.user._id)){
 					next();
 				} 
 				else {
-					res.send("author not same");
+					req.flash("flashMessageError", "You don't have permission to do that")
+					res.redirect("back");
 				}
 			}
 		})
 	} else {
-		//if user not logged in 
+		req.flash("flashMessageError", "You need to be logged in to do that!");
 		res.redirect("back");
 	}
 }
@@ -37,14 +40,17 @@ middlewareObj.checkLocationOwnership = (req, res, next)=>{
 middlewareObj.checkCommentOwnership = (req, res, next)=>{
 	if(req.isAuthenticated()) { //if user is loggedin
 		Comment.findById(req.params.comment_id, (err, foundComment)=>{ //find comment
-			if(err) res.send("can't find comment");
-			else {
+			if(err) {
+				req.flash("flashMessageError", "Comment not found")
+				res.redirect("back");
+			} else {
 				if(foundComment.author.id.equals(req.user._id)){ //if user loggedin is same as comment author
 					//cannot use triple equals with mongoose id
 					next();
 				} 
 				else {
-					res.send("author not same");
+					req.flash("flashMessageError", "You don't have permission to do that")
+					res.redirect("back");
 				}
 			}
 		})

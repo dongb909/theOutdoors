@@ -1,3 +1,4 @@
+require('dotenv').config()
 let express 	= require("express"),
 	app     	= express(),
 	bodyParser 	= require("body-parser"),
@@ -10,7 +11,10 @@ let express 	= require("express"),
 	LocalStrategy = require("passport-local"),
 	User 		= require("./models/user"),
 	expressSession = require("express-session"),
-	seedDB		= require("./seeds")
+	seedDB		= require("./seeds"),
+	PW 			= process.env.PW
+require('dotenv').config()
+
 
 // seedDB();
 /*========================
@@ -20,10 +24,11 @@ let commentRoutes = require("./routes/comments"),
 	locationRoutes = require("./routes/locations"),
 	indexRoutes = require("./routes/index")
 
+
 /*========================
 	CONNECTION
 ==========================*/
-mongoose.connect("mongodb://localhost/the_outdoors", {useNewUrlParser: true, useUnifiedTopology: true}); 
+mongoose.connect(`mongodb+srv://dongb909:${PW}@theoutdoors.cnl85.mongodb.net/TheOutdoors?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true}); 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs"); 
@@ -46,6 +51,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function (req,res,next){	//a middleware that runs for EVERY route thus every route and template has access to the variable "currentUser"
 	res.locals.currentUser = req.user; //only avail if user is loggedin or else it'll return undefined
+	res.locals.flashMessageError = req.flash("flashMessageError");
+	res.locals.flashMessageSuccess = req.flash("flashMessageSuccess");
 	//currentUser = {_id: req.user.id}
 	next();
 });
