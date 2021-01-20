@@ -18,35 +18,35 @@ body{
 
 @keyframes slide {
 	0% {
-	  background-image: url("https://images.unsplash.com/photo-1504194104404-433180773017?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80");
+	  background-image: url("https://wonderlust0.s3-us-west-1.amazonaws.com/Seljalandsfoss+Waterfall%2C+Iceland.jpeg");
 	  height: 100vh;
 	  background-size: cover;
 
 	}
 	33% {
-	  background-image: url("https://images.unsplash.com/photo-1504194104404-433180773017?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1950&q=80" );
+	  background-image: url("https://wonderlust0.s3-us-west-1.amazonaws.com/Seljalandsfoss+Waterfall%2C+Iceland.jpeg" );
 		height: 100vh;
 	  background-size: cover;
 
 
 	}
 	33.01% {
-	  background-image: url("https://images.unsplash.com/photo-1610777669280-867b3e6f31a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80" );
+	  background-image: url("https://wonderlust0.s3-us-west-1.amazonaws.com/Yoho%2C+Emerald+Lake%2C+Canada.jpeg" );
 		height: 100vh;
 	  background-size: cover;
 	}
 	66% {
-	  background-image: url("https://images.unsplash.com/photo-1610777669280-867b3e6f31a7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2089&q=80" );
+	  background-image: url("https://wonderlust0.s3-us-west-1.amazonaws.com/Yoho%2C+Emerald+Lake%2C+Canada.jpeg" );
 		height: 100vh;
 	  background-size: cover;
 	}
 	66.01% {
-	  background-image: url('https://images.unsplash.com/photo-1506355683710-bd071c0a5828?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
+	  background-image: url('https://wonderlust0.s3-us-west-1.amazonaws.com/reykjavik%2C+Iceland.jpeg');
 		height: 100vh;
 	  background-size: cover;
 	}
 	100% {
-	  background-image: url('https://images.unsplash.com/photo-1506355683710-bd071c0a5828?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80');
+	  background-image: url('https://wonderlust0.s3-us-west-1.amazonaws.com/reykjavik%2C+Iceland.jpeg');
 	  background-size: cover;
 	}
 };
