@@ -12,7 +12,7 @@ let express = require("express"),
   User = require("./models/user"),
   expressSession = require("express-session"),
   seedDB = require("./seeds"),
-  PW = process.env.PW;
+  MONGO_URL = process.env.MONGO_URL;
 require("dotenv").config();
 
 // seedDB();
@@ -27,7 +27,7 @@ let commentRoutes = require("./routes/comments"),
 	CONNECTION
 ==========================*/
 mongoose.connect(
-  `mongodb+srv://dongb909:${PW}@theoutdoors.cnl85.mongodb.net/TheOutdoors?retryWrites=true&w=majority`,
+  MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 app.use(bodyParser.urlencoded({ extended: true }));
