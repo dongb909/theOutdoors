@@ -1,6 +1,8 @@
 <h1 align="center"> WONDERLUST </h1>
 <h4 align="center"> - The Outdoors - </h4>
-<img align="center" width="500" height="400" src="https://wonderlust0.s3-us-west-1.amazonaws.com/startWonderlust.png">
+<p align="center">
+  <img width="480" height="300" src="https://wonderlust0.s3-us-west-1.amazonaws.com/green.png">
+</p>
  
 A place for wonderers to share their experience at any and all beautiful locations of nature around the world.
 We all love to vacation but there are so many hidden gems we might miss. This site allows people to discover such gems, share their experience, connect with other wonderers like themselves. 
