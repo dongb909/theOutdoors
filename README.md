@@ -1,7 +1,7 @@
 <h1 align="center"> WONDERLUST </h1>
 <h4 align="center"> - The Outdoors - </h4>
 <p align="center">
-  <img width="450" height="300" src="https://wonderlust0.s3-us-west-1.amazonaws.com/green.png">
+  <img width="420" height="300" src="https://wonderlust0.s3-us-west-1.amazonaws.com/water.png">
 </p>
  
 A place for wonderers to share their experience at any and all beautiful locations of nature around the world.
