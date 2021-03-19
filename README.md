@@ -7,13 +7,8 @@
 A place for wonderers to share their experience at any and all beautiful locations of nature around the world.
 We all love to vacation but there are so many hidden gems we might miss. This site allows people to discover such gems, share their experience, connect with other wonderers like themselves. 
 
-##Live Demo
+## Live Demo
 [https://theoutdoor.herokuapp.com/]
-
-## Gallery
-
-## Description
-The gallery and carousel component for a vacation stay room booking service. 
 
 ## Requirements
 - node 
